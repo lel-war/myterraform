@@ -1,3 +1,4 @@
+#installing openvpn through third-party script by dumrauf you can check it out here: https://github.com/dumrauf
 resource "null_resource" "openvpn_install" {
   depends_on = [aws_instance.bastion, aws_eip_association.eip_assoc]
   connection {
@@ -25,7 +26,7 @@ EOT
     ]
   }
 }
-
+#adding user to connect to vpn through third party script by dumrauf you can check it out here: https://github.com/dumrauf
 resource "null_resource" "openvpn_adduser" {
   depends_on = [null_resource.openvpn_install]
 
@@ -42,10 +43,6 @@ resource "null_resource" "openvpn_adduser" {
     agent       = false
   }
 
-#  provisioner "file" {
-#    source      = "https://raw.githubusercontent.com/dumrauf/openvpn-terraform-install/master/scripts/update_users.sh"
-#    destination = "/home/ec2-user/update_users.sh"
-#  }
 
   provisioner "remote-exec" {
     inline = [
@@ -56,6 +53,7 @@ resource "null_resource" "openvpn_adduser" {
   }
 }
 
+#download ovpn configurations to use with openvpn client
 resource "null_resource" "openvpn_download_configurations" {
   depends_on = [null_resource.openvpn_adduser]
 

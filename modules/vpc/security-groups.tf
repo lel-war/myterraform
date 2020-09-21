@@ -1,6 +1,7 @@
+#creating security group for http inbound traffic for ALB
 resource "aws_security_group" "webpub" {
   name_prefix        = "terraform-pub"
-  description = "Allow TLS inbound traffic"
+  description = "Allow HTTP inbound traffic"
   vpc_id      = "${aws_vpc.main.id}"
 
   ingress {
@@ -19,7 +20,7 @@ resource "aws_security_group" "webpub" {
   }
 
 }
-
+#creating security group for vpn/bastion that allows ssh and openvpn traffic from internet
 resource "aws_security_group" "bastion" {
   name_prefix        = "terraform-bastion"
   description = "Allow SSH inbound traffic"
@@ -47,6 +48,7 @@ resource "aws_security_group" "bastion" {
 
 }
 
+#creating security group for webservers that allow access to port 80 from ALB and ssh from vpn/bastion
 resource "aws_security_group" "webpriv" {
   name_prefix        = "terraform-priv"
   description = "Allow HTTP inbound traffic"
@@ -74,15 +76,3 @@ resource "aws_security_group" "webpriv" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-
-
-#resource "aws_security_group_rule" "ssh-ingress" {
-#  type              = "ingress"
-#  from_port         = 22
-#  to_port           = 22
-#  protocol          = "tcp"
-#  security_group_id = "${aws_security_group.webpub.id}"
-#  source_security_group_id = "${aws_security_group.bastion.id}"
-#  depends_on = [aws_security_group.bastion]
-#}

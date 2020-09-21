@@ -31,4 +31,4 @@ variable "eip_ip4"{}
 
 variable "ovpn_user" {}
 
-#variable "ovpn_config_directory" {}
+variable "instance_type_web" {}

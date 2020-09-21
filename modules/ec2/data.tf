@@ -1,3 +1,5 @@
+
+#get latest amazon linux 2 ami that supports EBS for persisting configurations on server
 data "aws_ami" "amazon" {
   most_recent = true
   owners =[137112412989]

@@ -1,12 +1,14 @@
+#creating vpc for our loads
 resource "aws_vpc" "main" {
   cidr_block       = "${var.vpc_cidr}"
   instance_tenancy = "${var.tenancy}"
 
   tags = {
-    Name = "main"
+    Name = "main-vpc"
   }
 }
 
+#creating an internet gateway for communication to internet
 resource "aws_internet_gateway" "igw" {
   vpc_id = "${aws_vpc.main.id}"
 
@@ -15,6 +17,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+#creating private subnets for our webservers
 resource "aws_subnet" "private0" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "${var.private0_cidr}"
@@ -45,6 +48,7 @@ resource "aws_subnet" "private2" {
   }
 }
 
+#creating public subnets for our ELB and VPN bastion
 resource "aws_subnet" "public0" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "${var.public0_cidr}"
@@ -75,7 +79,7 @@ resource "aws_subnet" "public2" {
   }
 }
 
-#let's create routes for public that go to the igw
+#creating routes for public subnets that go to the igw
 resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.main.id}"
 
@@ -99,7 +103,8 @@ resource "aws_route_table_association" "public2" {
   subnet_id      = aws_subnet.public2.id
   route_table_id = aws_route_table.public.id
 }
-#let's create routes for private that go to a ngw
+
+#creating elastic IPs to assign to vpn/bastion server and nat gateway
 
 resource "aws_eip" "ngw" {
   vpc      = true
@@ -114,6 +119,7 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id = "${aws_subnet.public0.id}"
 }
 
+#creating routes for private subnets that go to a ngw
 resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.main.id}"
 
@@ -137,5 +143,3 @@ resource "aws_route_table_association" "private2" {
   subnet_id      = aws_subnet.private2.id
   route_table_id = aws_route_table.private.id
 }
-
-#ver el lifecycle hook, las subnets poner en que availabilityzone, la instancia tiene que tener una ip publica, ver arriba las 

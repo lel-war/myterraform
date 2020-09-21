@@ -1,3 +1,4 @@
+#creating vpn/bastion instance
 resource "aws_instance" "bastion" {
   ami           = "${data.aws_ami.amazon.id}"
   instance_type = "t3.micro"
@@ -11,6 +12,7 @@ resource "aws_instance" "bastion" {
   }
 }
 
+#associating this instance with a persistent IPv4 EIP
 resource "aws_eip_association" "eip_assoc" {
   instance_id   = aws_instance.bastion.id
   allocation_id = "${var.vpn_eip}"

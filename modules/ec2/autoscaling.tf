@@ -1,3 +1,4 @@
+#creating ASG of webservers with configured launch config
 resource "aws_autoscaling_group" "web" {
   name                      = "terraform-web*"
   max_size                  = 2
@@ -15,7 +16,7 @@ resource "aws_autoscaling_group" "web" {
   }
 }
 
-# Create a new ALB Target Group attachment
+# Creating a new ALB Target Group attachment to created target group
 resource "aws_autoscaling_attachment" "asg_attachment_web" {
   autoscaling_group_name = aws_autoscaling_group.web.id
   alb_target_group_arn   = aws_lb_target_group.apache.arn

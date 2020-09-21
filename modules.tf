@@ -1,5 +1,5 @@
 module "vpc" {
-    source = "/home/lelwar/tests/applaudo/myterraform/modules/vpc"
+    source = "./modules/vpc"
 #networking variables
     vpc_cidr = "172.20.0.0/16"
     tenancy = "default"
@@ -11,9 +11,8 @@ module "vpc" {
     public2_cidr = "172.20.5.0/24"
 }
 module "ec2" {
-    source = "/home/lelwar/tests/applaudo/myterraform/modules/ec2"
+    source = "./modules/ec2"
     #computing variables
-    instance_type = "t2.small"
     pub_key = file("~/.ssh/id_rsa.pub")
     sg-ag = "${module.vpc.sg-ag}"
     sg-alb = "${module.vpc.sg-alb}"
@@ -28,7 +27,10 @@ module "ec2" {
     userdata = file("${path.module}/scripts/install_httpd.sh")
     vpn_eip = "${module.vpc.vpn_eip}"
     eip_ip4 = "${module.vpc.eip_ip4}"
+    # you can customize username for vpn and instance size for workloads
     ovpn_user = "lelwar2"
+    instance_type = "t2.small"
+    instance_type_web = "t3.small"
 }
 
 

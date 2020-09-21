@@ -1,3 +1,4 @@
+#creating ALB as a front to our webservers
 resource "aws_lb" "web" {
   name               = "terraform-lb"
   internal           = false
@@ -9,6 +10,7 @@ resource "aws_lb" "web" {
 
 }
 
+#creating a target group to use with ALB
 resource "aws_lb_target_group" "apache" {
   name     = "terraform-lb-tg"
   port     = 80
@@ -16,21 +18,15 @@ resource "aws_lb_target_group" "apache" {
   vpc_id   = "${var.vpc_id}"
 }
 
+#creating ALB listener for port 80 and forward to previosly created target group
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = "${aws_lb.web.arn}"
   port              = "80"
   protocol          = "HTTP"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.apache.arn
   }
 }
-
-#resource "aws_lb_target_group_attachment" "web" {
-#  target_group_arn = aws_lb_target_group.test.arn
-#  target_id        = aws_instance.test.id
-#  port             = 80
-#}
