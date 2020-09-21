@@ -1,0 +1,17 @@
+resource "aws_instance" "bastion" {
+  ami           = "${data.aws_ami.amazon.id}"
+  instance_type = "t3.micro"
+  security_groups = ["${var.sg-bastion}"]
+  subnet_id = "${var.public0}"
+  key_name = "${aws_key_pair.mykey.key_name}"
+  associate_public_ip_address = true
+  source_dest_check = false
+  tags = {
+    Name = "VPN Bastion"
+  }
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.bastion.id
+  allocation_id = "${var.vpn_eip}"
+}
