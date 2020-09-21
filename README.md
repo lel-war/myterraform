@@ -1,7 +1,7 @@
 This is a terraform project to create resources in AWS. You can use this code to create an autoscaling group consisting of 2 servers, 
 that are behind an application load balancer. A VPC is created with 3 public subnets (where ALB resides) and 3 private subnets (where the
 ASG resides). A bastion/vpn server is also created using OpenVPN. This templates assume that you have already created a key that will be 
-pulled from ~/.ssh/ directory.
+pulled from ~/.ssh/ directory and that you have created the AWS_ACCESS_KEY_ID and AWS_ACCESS_KEY_ID environment variables.
 
 You can also customize the following variables in the modules file:
 
