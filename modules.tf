@@ -1,6 +1,6 @@
 module "vpc" {
     source = "./modules/vpc"
-#networking variables
+#networking variables which you can customize:
     vpc_cidr = "172.20.0.0/16"
     tenancy = "default"
     private0_cidr = "172.20.0.0/24"

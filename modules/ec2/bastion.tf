@@ -1,7 +1,7 @@
 #creating vpn/bastion instance
 resource "aws_instance" "bastion" {
   ami           = "${data.aws_ami.amazon.id}"
-  instance_type = "t3.micro"
+  instance_type = "${var.instance_type}"
   security_groups = ["${var.sg-bastion}"]
   subnet_id = "${var.public0}"
   key_name = "${aws_key_pair.mykey.key_name}"

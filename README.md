@@ -10,7 +10,7 @@ Networking variables
     tenancy 
     private0_cidr 
     private1_cidr 
-    private2_cidr 
+    private2_cidr
     public0_cidr 
     public1_cidr 
     public2_cidr
@@ -21,3 +21,4 @@ Networking variables
 #Instance type for web
     instance_type_web 
 
+This template uses a script to install openvpn made by dumrauf.

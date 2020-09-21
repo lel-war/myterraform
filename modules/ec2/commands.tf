@@ -1,4 +1,4 @@
-#installing openvpn through third-party script by dumrauf you can check it out here: https://github.com/dumrauf
+#installing openvpn through third-party openvpn script by dumrauf you can check it out here: https://github.com/dumrauf
 resource "null_resource" "openvpn_install" {
   depends_on = [aws_instance.bastion, aws_eip_association.eip_assoc]
   connection {
