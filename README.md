@@ -20,3 +20,5 @@ Networking variables
     instance_type_web 
 
 This template uses a script to install openvpn made by dumrauf. You can connect to every server with ec2-user using the ovpn file created in your home folder with openvpn client.
+
+Please check this code.
